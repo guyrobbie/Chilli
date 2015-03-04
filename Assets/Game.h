@@ -46,10 +46,29 @@
 class Game
 {
 private:
-	struct HighScore
+	/*struct HighScore
 	{
 		int score;
 		char time[ TIMEBUFLEN ];
+	};*/
+	class ScoreBoard
+	{
+	private:
+		class Score
+		{
+		public:
+			Score(int score, const char* time);
+		private:
+			int score;
+			char* time;
+			Score* nextScore;
+		};
+	public:
+		ScoreBoard();
+		~ScoreBoard();
+		void AddScore(int score, const char* time);
+	private:
+		Score* firstScore;
 	};
 	struct Poo
 	{

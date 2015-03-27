@@ -26,12 +26,7 @@ class KeyboardClient
 {
 public:
 	KeyboardClient( const KeyboardServer& kServer );
-	bool UpIsPressed() const;
-	bool DownIsPressed() const;
-	bool LeftIsPressed() const;
-	bool RightIsPressed() const;
-	bool SpaceIsPressed() const;
-	bool EnterIsPressed() const;
+	bool KeyIsPressed(unsigned char keycode) const;
 private:
 	const KeyboardServer& server;
 };
@@ -42,24 +37,10 @@ class KeyboardServer
 public:
 	KeyboardServer();
 
-	void OnUpPressed();
-	void OnDownPressed();
-	void OnLeftPressed();
-	void OnRightPressed();
-	void OnSpacePressed();
-	void OnEnterPressed();
+	void OnKeyPressed(unsigned char keycode);
+	void OnKeyReleased(unsigned char keycode);
 
-	void OnUpReleased();
-	void OnDownReleased();
-	void OnLeftReleased();
-	void OnRightReleased();
-	void OnSpaceReleased();
-	void OnEnterReleased();
 private:
-	bool upIsPressed;
-	bool downIsPressed;
-	bool leftIsPressed;
-	bool rightIsPressed;
-	bool spaceIsPressed;
-	bool enterIsPressed;
+	static const int nKeys = 256;
+	bool keyState[nKeys];
 };

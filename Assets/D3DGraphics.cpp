@@ -173,12 +173,11 @@ void D3DGraphics::EndFrame()
 
 	result = pBackBuffer->LockRect(&backRect, NULL, NULL);
 	assert(!FAILED(result));
-	timer.StartFrame();
+
 	for (int y = 0; y < 600; y++)
 	{
 		memcpy(&((BYTE*)backRect.pBits)[backRect.Pitch*y], &pSysBuffer[800 * y], sizeof(D3DCOLOR) * 800);
 	}
-	timer.StopFrame();
 
 	result = pBackBuffer->UnlockRect();
 	assert( !FAILED( result ) );

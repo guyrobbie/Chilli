@@ -25,88 +25,28 @@ KeyboardClient::KeyboardClient( const KeyboardServer& kServer )
 	: server( kServer )
 {}
 
-bool KeyboardClient::UpIsPressed() const
+bool KeyboardClient::KeyIsPressed(unsigned char keycode) const
 {
-	return server.upIsPressed;
+	return server.keyState[keycode];
 }
-bool KeyboardClient::DownIsPressed() const
-{
-	return server.downIsPressed;
-}
-bool KeyboardClient::LeftIsPressed() const
-{
-	return server.leftIsPressed;
-}
-bool KeyboardClient::RightIsPressed() const
-{
-	return server.rightIsPressed;
-}
-bool KeyboardClient::SpaceIsPressed() const
-{
-	return server.spaceIsPressed;
-}
-bool KeyboardClient::EnterIsPressed() const
-{
-	return server.enterIsPressed;
-}
+
 
 
 
 KeyboardServer::KeyboardServer()
-:	upIsPressed( false ),
-	downIsPressed( false ),
-	leftIsPressed( false ),
-	rightIsPressed( false ),
-	spaceIsPressed( false ),
-	enterIsPressed( false )
-{}
-
-void KeyboardServer::OnUpPressed()
 {
-	upIsPressed = true;
-}
-void KeyboardServer::OnDownPressed()
-{
-	downIsPressed = true;
-}
-void KeyboardServer::OnLeftPressed()
-{
-	leftIsPressed = true;
-}
-void KeyboardServer::OnRightPressed()
-{
-	rightIsPressed = true;
-}
-void KeyboardServer::OnSpacePressed()
-{
-	spaceIsPressed = true;
-}
-void KeyboardServer::OnEnterPressed()
-{
-	enterIsPressed = true;
+	for (int x = 0; x < nKeys; x++)
+	{
+		keyState[x] = false;
+	}
 }
 
-void KeyboardServer::OnUpReleased()
+void KeyboardServer::OnKeyPressed(unsigned char keycode)
 {
-	upIsPressed = false;
+	keyState[keycode] = true;
 }
-void KeyboardServer::OnDownReleased()
+
+void KeyboardServer::OnKeyReleased(unsigned char keycode)
 {
-	downIsPressed = false;
-}
-void KeyboardServer::OnLeftReleased()
-{
-	leftIsPressed = false;
-}
-void KeyboardServer::OnRightReleased()
-{
-	rightIsPressed = false;
-}
-void KeyboardServer::OnSpaceReleased()
-{
-	spaceIsPressed = false;
-}
-void KeyboardServer::OnEnterReleased()
-{
-	enterIsPressed = false;
+	keyState[keycode] = false;
 }

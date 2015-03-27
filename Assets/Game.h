@@ -87,7 +87,6 @@ private:
 	D3DCOLOR fontSurf[ 512 * 84 ];
 	Font fixedSys;
 
-	FrameTimer timer;
 
 	/********************************/
 };

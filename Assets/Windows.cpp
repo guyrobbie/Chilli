@@ -37,51 +37,10 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 
 		// ************ KEYBOARD MESSAGES ************ //
 		case WM_KEYDOWN:
-			switch( wParam )
-			{
-			case VK_UP:
-				kServ.OnUpPressed();
-				break;
-			case VK_DOWN:
-				kServ.OnDownPressed();
-				break;
-			case VK_LEFT:
-				kServ.OnLeftPressed();
-				break;
-			case VK_RIGHT:
-				kServ.OnRightPressed();
-				break;
-			case VK_SPACE:
-                kServ.OnSpacePressed();
-				break;
-			case VK_RETURN:
-				kServ.OnEnterPressed();
-				break;
-			}
+			kServ.OnKeyPressed(wParam);
 			break;
 		case WM_KEYUP:
-   			switch( wParam )
-			{
-			case VK_UP:
-				kServ.OnUpReleased();
-				break;
-			case VK_DOWN:
-				kServ.OnDownReleased();
-				break;
-			case VK_LEFT:
-				kServ.OnLeftReleased();
-				break;
-			case VK_RIGHT:
-				kServ.OnRightReleased();
-				break;
-			case VK_SPACE:
-				kServ.OnSpaceReleased();
-				break;
-			case VK_RETURN:
-				kServ.OnEnterReleased();
-				break;
-			}
-			break;
+			kServ.OnKeyReleased(wParam);
 		// ************ END KEYBOARD MESSAGES ************ //
 
 		// ************ MOUSE MESSAGES ************ //

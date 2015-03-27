@@ -1,7 +1,7 @@
 /****************************************************************************************** 
- *	Chili DirectX Framework Version 11.12.17											  *	
+ *	Chili DirectX Framework Version 12.04.24											  *	
  *	Keyboard.h																			  *
- *	Copyright 2011 PlanetChili.net														  *
+ *	Copyright 2012 PlanetChili.net														  *
  *																						  *
  *	This file is part of The Chili DirectX Framework.									  *
  *																						  *

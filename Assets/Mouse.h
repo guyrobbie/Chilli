@@ -1,7 +1,7 @@
 /****************************************************************************************** 
  *	Chili DirectX Framework Version 12.04.24											  *	
- *	Mouse.h																			  *
- *	Copyright 2012 PlanetChili.net														  *
+ *	Mouse.h																		  *
+ *	Copyright 2012 PlanetChili <http://www.planetchili.net>								  *
  *																						  *
  *	This file is part of The Chili DirectX Framework.									  *
  *																						  *

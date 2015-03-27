@@ -1,7 +1,7 @@
 /****************************************************************************************** 
- *	Chili DirectX Framework Version 11.12.17											  *	
+ *	Chili DirectX Framework Version 12.04.24											  *	
  *	Game.h																				  *
- *	Copyright 2011 PlanetChili.net														  *
+ *	Copyright 2012 PlanetChili.net														  *
  *																						  *
  *	This file is part of The Chili DirectX Framework.									  *
  *																						  *
@@ -24,92 +24,51 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Sound.h"
-#include "string.h"
+#include "Timer.h"
+#include "FrameTimer.h"
 
-#define NPOO 25
-#define GOALRAD 25
-#define NSCORE 10
-#define TIMEBUFLEN 20
-#define MAXPOOSPEED 4.0f
-#define MINAPPEARDIST 30.0f
-#define FACESPEED 7
-#define WORLDHEIGHT 1199
-#define WORLDWIDTH 1599
-// resolution of background grid
-#define GRIDRESOLUTION 50
-// camera tracking offset vertical/horizontal
-// is the offset from the edge off the screen 
-// to the camera tracking rectangle
-#define CTRKOFFVERT 180
-#define CTRKOFFHOR 240
+#define DUDEWIDTH 50
+#define DUDEHEIGHT 80
+#define DUDENFRAMES 14
+#define DUDEFRAMETIME (60 / DUDENFRAMES)
+#define DUDEKEYCOLOR D3DCOLOR_XRGB( 255,255,255 )
+#define DUDEFILENAME "WalkinDude\\wdude"
+#define DUDESPEED 1.55f
+#define NDUDES 100
 
 class Game
 {
-private:
-	/*struct HighScore
+public:
+	struct AnimatedSpriteTemplate
 	{
-		int score;
-		char time[ TIMEBUFLEN ];
-	};*/
-	class ScoreBoard
-	{
-	private:
-		class Score
-		{
-		public:
-			Score(int score, const char* time);
-		private:
-			int score;
-			char* time;
-			Score* nextScore;
-		};
-	public:
-		ScoreBoard();
-		~ScoreBoard();
-		void AddScore(int score, const char* time);
-	private:
-		Score* firstScore;
+		Sprite* frames;
+		int nFrames;
+		int frameDuration;
 	};
-	struct Poo
+	struct AnimatedSpriteInstance
 	{
-		float x;
-		float y;
-		float vx;
-		float vy;
+		AnimatedSpriteTemplate* templat;
+		int currentFrame;
+		int currentFrameExposure;
+		float x,y;
 	};
+
+
 public:
 	Game( HWND hWnd,const KeyboardServer& kServer,const MouseServer& mServer );
 	~Game();
+	void LoadAnimatedSprite( AnimatedSpriteTemplate* templat,
+		const char* basename,int width,int height,D3DCOLOR key,int nFrames,int frameDuration );
+	void FreeAnimatedSprite( AnimatedSpriteTemplate* templat );
+	void CreateSpriteInstance( AnimatedSpriteTemplate* templat,AnimatedSpriteInstance* instance );
+	void UpdateAnimation( AnimatedSpriteInstance* instance );
+	void DrawSpriteInstance( AnimatedSpriteInstance* instance );
 	void Go();
 private:
 	void ComposeFrame();
 	/********************************/
 	/*  User Functions              */
 
-	void DrawFaceClipped( int x,int y );
-	void DrawPooClipped( int x,int y );
-	void DrawPooUnclipped( int x,int y );
-	void DrawGameOver( int x,int y );
-	// unlike drawface and drawpoo, drawbackground works
-	// in world space instead of screen space, so it needs
-	// the camera coordinates
-	void DrawBackgroundClipped( int cameraX,int cameraY );
-	void UpdateFace();
-	void UpdatePoo();
-	void UpdateCamera();
-	void RandomizePooVelocity( int index );
-	void RandomizePooPosition( int index );
-	void ResetGame();
-	void ResetGoal();
-
-	void ClearScoreboard();
-	void InsertScore( HighScore score );
-	void SaveScoreboard();
-	HighScore GetScore();
-	void LoadScore();
-
-	void SaveGame();
-	void LoadGame();
 	/********************************/
 private:
 	D3DGraphics gfx;
@@ -118,22 +77,17 @@ private:
 	DSound audio;
 	/********************************/
 	/*  User Variables              */
-	int nPoo;
-	int nGoal;
-	bool gameIsOver;
+	
+	Sprite alphaSprite;
+	Sprite backgroundSprite;
+	AnimatedSpriteTemplate dudeTemplate;
 
-	int faceX;
-	int faceY;
-	int goalX;
-	int goalY;
-	int cameraX;
-	int cameraY;
+	AnimatedSpriteInstance dudes[ NDUDES ];
+	
+	D3DCOLOR fontSurf[ 512 * 84 ];
+	Font fixedSys;
 
-	Poo poo[ NPOO ];
+	FrameTimer timer;
 
-	HighScore scores[ NSCORE ];
-
-	Sound fart;
-	Sound ting;
 	/********************************/
 };

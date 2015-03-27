@@ -89,7 +89,7 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 			{
 				int x = (short)LOWORD( lParam );
 				int y = (short)HIWORD( lParam );
-				if( x > 0 && x < SCREENWIDTH && y > 0 && y < SCREENHEIGHT )
+				if( x > 0 && x < 800 && y > 0 && y < 600 )
 				{
 					mServ.OnMouseMove( x,y );
 					if( !mServ.IsInWindow() )
@@ -103,9 +103,9 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 					if( wParam & (MK_LBUTTON | MK_RBUTTON) )
 					{
 						x = max( 0,x );
-						x = min( (SCREENWIDTH - 1),x );
+						x = min( 799,x );
 						y = max( 0,y );
-						y = min( (SCREENHEIGHT - 1),y );
+						y = min( 599,y );
 						mServ.OnMouseMove( x,y );
 					}
 					else
@@ -144,17 +144,17 @@ int WINAPI wWinMain( HINSTANCE hInst,HINSTANCE,LPWSTR,INT )
                       L"Chili DirectX Framework Window",NULL };
     wc.hIconSm = (HICON)LoadImage( hInst,MAKEINTRESOURCE( IDI_APPICON16 ),IMAGE_ICON,16,16,0 );
 	wc.hIcon   = (HICON)LoadImage( hInst,MAKEINTRESOURCE( IDI_APPICON32 ),IMAGE_ICON,32,32,0 );
-	wc.hCursor = LoadCursor( NULL,IDC_HAND );
+	wc.hCursor = LoadCursor( NULL,IDC_ARROW );
     RegisterClassEx( &wc );
 	
 	RECT wr;
 	wr.left = 650;
-	wr.right = SCREENWIDTH + wr.left;
+	wr.right = 800 + wr.left;
 	wr.top = 150;
-	wr.bottom = SCREENHEIGHT + wr.top;
-	AdjustWindowRect( &wr,WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,FALSE );
+	wr.bottom = 600 + wr.top;
+	AdjustWindowRect( &wr,WS_OVERLAPPEDWINDOW,FALSE );
     HWND hWnd = CreateWindowW( L"Chili DirectX Framework Window",L"Chili DirectX Framework",
-                              WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,wr.left,wr.top,wr.right-wr.left,wr.bottom-wr.top,
+                              WS_OVERLAPPEDWINDOW,wr.left,wr.top,wr.right-wr.left,wr.bottom-wr.top,
                               NULL,NULL,wc.hInstance,NULL );
 
     ShowWindow( hWnd,SW_SHOWDEFAULT );

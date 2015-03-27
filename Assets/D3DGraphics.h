@@ -1,7 +1,7 @@
 /****************************************************************************************** 
- *	Chili DirectX Framework Version 11.12.17											  *	
+ *	Chili DirectX Framework Version 12.04.24											  *	
  *	D3DGraphics.h																		  *
- *	Copyright 2011 PlanetChili <http://www.planetchili.net>								  *
+ *	Copyright 2012 PlanetChili <http://www.planetchili.net>								  *
  *																						  *
  *	This file is part of The Chili DirectX Framework.									  *
  *																						  *
@@ -22,21 +22,47 @@
 
 #include <d3d9.h>
 
-#define SCREENHEIGHT 600
-#define SCREENWIDTH 800
+struct Sprite
+{
+	int width;
+	int height;
+	D3DCOLOR key;
+	D3DCOLOR* surface;
+};
+
+struct Font
+{
+	int charWidth;
+	int charHeight;
+	int nCharsPerRow;
+	D3DCOLOR* surface;
+};
+
+void LoadSprite( Sprite* sprite,const char* filename,
+	unsigned int width,unsigned int height,D3DCOLOR key );
+
+void LoadSpriteAlpha( Sprite* sprite );
+
+void FreeSprite( Sprite* sprite );
+
+void LoadFont( Font* font,D3DCOLOR* surface,const char* filename,
+	int charWidth,int charHeight,int nCharsPerRow );
 
 class D3DGraphics
 {
 public:
 	D3DGraphics( HWND hWnd );
 	~D3DGraphics();
-	void DrawLine( int x1,int y1,int x2,int y2,int r,int g,int b );
 	void PutPixel( int x,int y,int r,int g,int b );
-	// separate clipped and non-clipped functions because clipping
-	// per-pixel takes a performance hit
-	void PutPixelClipped( int x,int y,int r,int g,int b );
-	// only one disc, so no need to worry about clipping performance
-	void DrawDiscClipped( int cx,int cy,int r,int rd,int g,int b );
+	void PutPixel( int x,int y,D3DCOLOR c );
+	D3DCOLOR GetPixel( int x,int y );
+	void DrawLine( int x1,int y1,int x2,int y2,int r,int g,int b );
+	void DrawCircle( int cx,int cy,int radius,int r,int g,int b );
+	void DrawDisc( int cx,int cy,int r,int rd,int g,int b );
+	void DrawSprite( int x,int y,Sprite* sprite );
+	void DrawSpriteAlpha( int xoff,int yoff,Sprite* sprite );
+	void DrawChar( char c,int x,int y,Font* font,D3DCOLOR color );
+	void DrawString( const char* string,int x,int y,Font* font,D3DCOLOR color );
 	void BeginFrame();
 	void EndFrame();
 private:
@@ -44,4 +70,5 @@ private:
 	IDirect3DDevice9*	pDevice;
 	IDirect3DSurface9*	pBackBuffer;
 	D3DLOCKED_RECT		backRect;
+	D3DCOLOR*			pSysBuffer;
 };

@@ -1,5 +1,5 @@
 /****************************************************************************************** 
- *	Chili DirectX Framework Version 12.04.24											  *	
+ *	Chili DirectX Framework Version 12.10.21											  *	
  *	Keyboard.h																			  *
  *	Copyright 2012 PlanetChili.net														  *
  *																						  *
@@ -19,7 +19,7 @@
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
 #pragma once
-
+#include <Windows.h>
 #include <queue>
 
 class KeyboardServer;
@@ -28,10 +28,14 @@ class KeyboardClient
 {
 public:
 	KeyboardClient( KeyboardServer& kServer );
-	bool KeyIsPressed(unsigned char keycode) const;
+	bool KeyIsPressed( unsigned char keycode ) const;
 	unsigned char ReadKey();
-	unsigned char PeekKey();
-	void FlushBuffer();
+	unsigned char PeekKey() const;
+	unsigned char ReadChar();
+	unsigned char PeekChar() const;
+	void FlushKeyBuffer();
+	void FlushCharBuffer();
+	void FlushBuffers();
 private:
 	KeyboardServer& server;
 };
@@ -41,12 +45,13 @@ class KeyboardServer
 	friend KeyboardClient;
 public:
 	KeyboardServer();
-
-	void OnKeyPressed(unsigned char keycode);
-	void OnKeyReleased(unsigned char keycode);
-
+	void OnKeyPressed( unsigned char keycode );
+	void OnKeyReleased( unsigned char keycode );
+	void OnChar( unsigned char character );
 private:
 	static const int nKeys = 256;
-	bool keyState[nKeys];
-	std::queue<unsigned char> keyBuffer;
+	static const int bufferSize = 4;
+	bool keystates[ nKeys ];
+	std::queue<unsigned char> keybuffer;
+	std::queue<unsigned char> charbuffer;
 };

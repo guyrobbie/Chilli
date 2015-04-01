@@ -1,5 +1,5 @@
 /****************************************************************************************** 
- *	Chili DirectX Framework Version 12.04.24											  *	
+ *	Chili DirectX Framework Version 12.10.21											  *	
  *	Keyboard.cpp																		  *
  *	Copyright 2012 PlanetChili.net														  *
  *																						  *
@@ -19,62 +19,23 @@
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
 #include "Keyboard.h"
-#include "windows.h"
-
 
 KeyboardClient::KeyboardClient( KeyboardServer& kServer )
 	: server( kServer )
 {}
 
-bool KeyboardClient::KeyIsPressed(unsigned char keycode) const
+bool KeyboardClient::KeyIsPressed( unsigned char keycode ) const
 {
-	return server.keyState[keycode];
-}
-
-void KeyboardClient::FlushBuffer()
-{
-	while (!server.keyBuffer.empty())
-	{
-		server.keyBuffer.pop();
-	}
-}
-
-
-KeyboardServer::KeyboardServer()
-{
-	for (int x = 0; x < nKeys; x++)
-	{
-		keyState[x] = false;
-	}
-}
-
-void KeyboardServer::OnKeyPressed(unsigned char keycode)
-{
-	keyState[keycode] = true;
-	if (!keyState[VK_SHIFT])
-	{
-		if (keycode > 'A' && keycode < 'Z')
-		{
-			keycode = towlower(keycode);
-		}
-	}
-	keyBuffer.push(keycode);
-	
+	return server.keystates[ keycode ];
 }
 
 unsigned char KeyboardClient::ReadKey()
 {
-	unsigned char keycode = server.keyBuffer.front();
-	server.keyBuffer.pop();
-	return keycode;
-
-}
-
-unsigned char KeyboardClient::PeekKey()
-{
-	if (server.keyBuffer.size() > 0)
+	if( server.keybuffer.size() > 0 )
 	{
-		return server.keyBuffer.front();
+		unsigned char keycode = server.keybuffer.front();
+		server.keybuffer.pop();
+		return keycode;
 	}
 	else
 	{
@@ -82,8 +43,96 @@ unsigned char KeyboardClient::PeekKey()
 	}
 }
 
-void KeyboardServer::OnKeyReleased(unsigned char keycode)
+unsigned char KeyboardClient::PeekKey() const
+{	
+	if( server.keybuffer.size() > 0 )
+	{
+		return server.keybuffer.front();
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+unsigned char KeyboardClient::ReadChar()
 {
-	keyState[keycode] = false;
+	if( server.charbuffer.size() > 0 )
+	{
+		unsigned char charcode = server.charbuffer.front();
+		server.charbuffer.pop();
+		return charcode;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+unsigned char KeyboardClient::PeekChar() const
+{
+	if( server.charbuffer.size() > 0 )
+	{
+		return server.charbuffer.front();
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+void KeyboardClient::FlushKeyBuffer()
+{
+	while( !server.keybuffer.empty() )
+	{
+		server.keybuffer.pop();
+	}
+}
+
+void KeyboardClient::FlushCharBuffer()
+{
+	while( !server.charbuffer.empty() )
+	{
+		server.charbuffer.pop();
+	}
+}
+
+void KeyboardClient::FlushBuffers()
+{
+	FlushKeyBuffer();
+	FlushCharBuffer();
+}
+
+KeyboardServer::KeyboardServer()
+{
+	for( int x = 0; x < nKeys; x++ )
+	{
+		keystates[ x ] = false;
+	}
+}
+
+void KeyboardServer::OnKeyPressed( unsigned char keycode )
+{
+	keystates[ keycode ] = true;
+	
+	keybuffer.push( keycode );
+	if( keybuffer.size() > bufferSize )
+	{
+		keybuffer.pop();
+	}
+}
+
+void KeyboardServer::OnKeyReleased( unsigned char keycode )
+{
+	keystates[ keycode ] = false;
+}
+
+void KeyboardServer::OnChar( unsigned char character )
+{
+	charbuffer.push( character );
+	if( charbuffer.size() > bufferSize )
+	{
+		charbuffer.pop();
+	}
 }
 

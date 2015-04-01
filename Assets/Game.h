@@ -1,5 +1,5 @@
 /****************************************************************************************** 
- *	Chili DirectX Framework Version 12.04.24											  *	
+ *	Chili DirectX Framework Version 12.10.21											  *	
  *	Game.h																				  *
  *	Copyright 2012 PlanetChili.net														  *
  *																						  *
@@ -19,7 +19,6 @@
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
 #pragma once
-#include <Windows.h>
 
 #include "D3DGraphics.h"
 #include "Keyboard.h"
@@ -28,42 +27,11 @@
 #include "Timer.h"
 #include "FrameTimer.h"
 
-#define DUDEWIDTH 50
-#define DUDEHEIGHT 80
-#define DUDENFRAMES 14
-#define DUDEFRAMETIME (60 / DUDENFRAMES)
-#define DUDEKEYCOLOR D3DCOLOR_XRGB( 255,255,255 )
-#define DUDEFILENAME "WalkinDude\\wdude"
-#define DUDESPEED 1.55f
-#define NDUDES 100
-
 class Game
 {
 public:
-	struct AnimatedSpriteTemplate
-	{
-		Sprite* frames;
-		int nFrames;
-		int frameDuration;
-	};
-	struct AnimatedSpriteInstance
-	{
-		AnimatedSpriteTemplate* templat;
-		int currentFrame;
-		int currentFrameExposure;
-		float x,y;
-	};
-
-
-public:
 	Game( HWND hWnd,KeyboardServer& kServer,const MouseServer& mServer );
 	~Game();
-	void LoadAnimatedSprite( AnimatedSpriteTemplate* templat,
-		const char* basename,int width,int height,D3DCOLOR key,int nFrames,int frameDuration );
-	void FreeAnimatedSprite( AnimatedSpriteTemplate* templat );
-	void CreateSpriteInstance( AnimatedSpriteTemplate* templat,AnimatedSpriteInstance* instance );
-	void UpdateAnimation( AnimatedSpriteInstance* instance );
-	void DrawSpriteInstance( AnimatedSpriteInstance* instance );
 	void Go();
 private:
 	void ComposeFrame();
@@ -78,17 +46,6 @@ private:
 	DSound audio;
 	/********************************/
 	/*  User Variables              */
-	
-	Sprite alphaSprite;
-	Sprite backgroundSprite;
-	AnimatedSpriteTemplate dudeTemplate;
-
-	AnimatedSpriteInstance dudes[ NDUDES ];
-	
-	D3DCOLOR fontSurf[ 512 * 84 ];
-	Font fixedSys;
-
-	char textBuffer[80];
 
 	/********************************/
 };

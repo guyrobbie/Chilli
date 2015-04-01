@@ -1,36 +1,36 @@
 #pragma once
 
-#include "timer.h"
+#include "Timer.h"
 #include "float.h"
+
 class FrameTimer
 {
 public:
 	FrameTimer()
 		:
-		timeMin(FLT_MAX),
-		timeMax(0.0f),
-		timeSum(0.0f),
-		lastMin(0.0f),
-		lastMax(0.0f),
-		lastAvg(0.0f),
-		frameCount(0)
-		{}
+	timeMin( FLT_MAX ),
+	timeMax( 0.0f ),
+	timeSum( 0.0f ),
+	lastMin( 0.0f ),
+	lastMax( 0.0f ),
+	lastAvg( 0.0f ),
+	frameCount( 0 )
+	{}
 	void StartFrame()
-	{
+	{		
 		timer.StartWatch();
 	}
 	void StopFrame()
 	{
 		timer.StopWatch();
-
 		const float frameTime = timer.GetTimeMilli();
 		timeSum += frameTime;
-		timeMin = min(timeMin, frameTime);
-		timeMax = max(timeMax, frameTime);
+		timeMin = min( timeMin,frameTime );
+		timeMax = max( timeMax,frameTime );
 		frameCount++;
-		if (frameCount >= 60)
+		if( frameCount >= nFramesAvg )
 		{
-			lastAvg = timeSum / 60.0f;
+			lastAvg = timeSum / (float)nFramesAvg;
 			lastMin = timeMin;
 			lastMax = timeMax;
 			timeSum = 0.0f;
@@ -53,7 +53,7 @@ public:
 	}
 
 private:
-	static const int nFramesAvg = 60;
+	static const int nFramesAvg = 20;
 	Timer timer;
 	float timeSum;
 	float timeMin;

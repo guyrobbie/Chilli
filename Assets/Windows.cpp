@@ -1,5 +1,5 @@
 /****************************************************************************************** 
- *	Chili DirectX Framework Version 12.04.24											  *	
+ *	Chili DirectX Framework Version 12.10.21											  *	
  *	Windows.cpp																			  *
  *	Copyright 2012 PlanetChili.net														  *
  *																						  *
@@ -20,6 +20,7 @@
  ******************************************************************************************/
 #include <Windows.h>
 #include <wchar.h>
+#include "D3DGraphics.h"
 #include "Game.h"
 #include "resource.h"
 #include "Mouse.h"
@@ -37,12 +38,14 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 
 		// ************ KEYBOARD MESSAGES ************ //
 		case WM_KEYDOWN:
-			kServ.OnKeyPressed(wParam);
+			kServ.OnKeyPressed( wParam );
 			break;
 		case WM_KEYUP:
-			kServ.OnKeyReleased(wParam);
+   			kServ.OnKeyReleased( wParam );
 			break;
-
+		case WM_CHAR:
+			kServ.OnChar( wParam );
+			break;
 		// ************ END KEYBOARD MESSAGES ************ //
 
 		// ************ MOUSE MESSAGES ************ //
@@ -50,7 +53,7 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 			{
 				int x = (short)LOWORD( lParam );
 				int y = (short)HIWORD( lParam );
-				if( x > 0 && x < 800 && y > 0 && y < 600 )
+				if( x > 0 && x < SCREENWIDTH && y > 0 && y < SCREENHEIGHT )
 				{
 					mServ.OnMouseMove( x,y );
 					if( !mServ.IsInWindow() )
@@ -64,9 +67,9 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 					if( wParam & (MK_LBUTTON | MK_RBUTTON) )
 					{
 						x = max( 0,x );
-						x = min( 799,x );
+						x = min( SCREENWIDTH-1,x );
 						y = max( 0,y );
-						y = min( 599,y );
+						y = min( SCREENHEIGHT-1,y );
 						mServ.OnMouseMove( x,y );
 					}
 					else
@@ -110,12 +113,12 @@ int WINAPI wWinMain( HINSTANCE hInst,HINSTANCE,LPWSTR,INT )
 	
 	RECT wr;
 	wr.left = 650;
-	wr.right = 800 + wr.left;
+	wr.right = SCREENWIDTH + wr.left;
 	wr.top = 150;
-	wr.bottom = 600 + wr.top;
-	AdjustWindowRect( &wr,WS_OVERLAPPEDWINDOW,FALSE );
+	wr.bottom = SCREENHEIGHT + wr.top;
+	AdjustWindowRect( &wr,WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,FALSE );
     HWND hWnd = CreateWindowW( L"Chili DirectX Framework Window",L"Chili DirectX Framework",
-                              WS_OVERLAPPEDWINDOW,wr.left,wr.top,wr.right-wr.left,wr.bottom-wr.top,
+                              WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,wr.left,wr.top,wr.right-wr.left,wr.bottom-wr.top,
                               NULL,NULL,wc.hInstance,NULL );
 
     ShowWindow( hWnd,SW_SHOWDEFAULT );

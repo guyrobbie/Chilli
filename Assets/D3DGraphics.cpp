@@ -1,5 +1,5 @@
 /****************************************************************************************** 
- *	Chili DirectX Framework Version 12.04.24											  *	
+ *	Chili DirectX Framework Version 12.10.21											  *	
  *	D3DGraphics.cpp																		  *
  *	Copyright 2012 PlanetChili.net														  *
  *																						  *
@@ -27,8 +27,6 @@
 #include "FrameTimer.h"
 #pragma comment( lib,"gdiplus.lib" )
 
-FrameTimer timer;
-
 void LoadSprite( Sprite* sprite,const char* filename,
 	unsigned int width,unsigned int height,D3DCOLOR key )
 {
@@ -53,9 +51,9 @@ void LoadSpriteAlpha( Sprite* sprite )
 	sprite->key = 0x010301F3;
 	sprite->surface = (D3DCOLOR*)malloc( sizeof( D3DCOLOR ) * sprite->height * sprite->width );
 
-	for( int y = 0; y < bitmap.GetHeight(); y++ )
+	for( unsigned int y = 0; y < bitmap.GetHeight(); y++ )
 	{
-		for( int x = 0; x < bitmap.GetWidth(); x++ )
+		for( unsigned int x = 0; x < bitmap.GetWidth(); x++ )
 		{
 			bitmap.GetPixel( x,y,&pixel );
 			sprite->surface[ x + y * bitmap.GetWidth() ] = 
@@ -79,12 +77,12 @@ void LoadFont( Font* font,D3DCOLOR* surface,const char* filename,
 	font->surface = surface;
 }
 
-D3DGraphics::D3DGraphics(HWND hWnd)
+D3DGraphics::D3DGraphics( HWND hWnd )
 	:
-	pDirect3D(NULL),
-	pDevice(NULL),
-	pBackBuffer(NULL),
-	pSysBuffer(NULL)
+pDirect3D( NULL ),
+pDevice( NULL ),
+pBackBuffer( NULL ),
+pSysBuffer( NULL )
 {
 	HRESULT result;
 
@@ -108,7 +106,7 @@ D3DGraphics::D3DGraphics(HWND hWnd)
 	result = pDevice->GetBackBuffer( 0,0,D3DBACKBUFFER_TYPE_MONO,&pBackBuffer );
 	assert( !FAILED( result ) );
 
-	pSysBuffer = new D3DCOLOR[ 800 * 600];
+	pSysBuffer = new D3DCOLOR[ SCREENWIDTH * SCREENHEIGHT ];
 }
 
 D3DGraphics::~D3DGraphics()
@@ -128,10 +126,10 @@ D3DGraphics::~D3DGraphics()
 		pBackBuffer->Release();
 		pBackBuffer = NULL;
 	}
-	if (pSysBuffer)
+	if( pSysBuffer )
 	{
 		delete pSysBuffer;
-		pSysBuffer = NULL; 
+		pSysBuffer = NULL;
 	}
 }
 
@@ -139,44 +137,44 @@ void D3DGraphics::PutPixel( int x,int y,int r,int g,int b )
 {	
 	assert( x >= 0 );
 	assert( y >= 0 );
-	assert( x < 800 );
-	assert( y < 600 );
-	pSysBuffer[ x + 800 * y ] = D3DCOLOR_XRGB( r,g,b );
+	assert( x < SCREENWIDTH );
+	assert( y < SCREENHEIGHT );
+	pSysBuffer[ x + SCREENWIDTH * y ] = D3DCOLOR_XRGB( r,g,b );
 }
 
 void D3DGraphics::PutPixel( int x,int y,D3DCOLOR c )
 {	
 	assert( x >= 0 );
 	assert( y >= 0 );
-	assert( x < 800 );
-	assert( y < 600 );
-	pSysBuffer[x + 800 * y] = c;
+	assert( x < SCREENWIDTH );
+	assert( y < SCREENHEIGHT );
+	pSysBuffer[ x + SCREENWIDTH * y ] = c;
 }
 
 D3DCOLOR D3DGraphics::GetPixel( int x,int y )
 {
 	assert( x >= 0 );
 	assert( y >= 0 );
-	assert( x < 800 );
-	assert( y < 600 );
-	return pSysBuffer[x + 800 * y];
+	assert( x < SCREENWIDTH );
+	assert( y < SCREENHEIGHT );
+	return pSysBuffer[ x + SCREENWIDTH * y ];
 }
 
 void D3DGraphics::BeginFrame()
 {
-	memset(pSysBuffer,0xFF,sizeof(D3DCOLOR)*800*600);
+	memset( pSysBuffer,FILLVALUE,sizeof( D3DCOLOR ) * SCREENWIDTH * SCREENHEIGHT );
 }
 
 void D3DGraphics::EndFrame()
 {
 	HRESULT result;
 
-	result = pBackBuffer->LockRect(&backRect, NULL, NULL);
-	assert(!FAILED(result));
+	result = pBackBuffer->LockRect( &backRect,NULL,NULL );
+	assert( !FAILED( result ) );
 
-	for (int y = 0; y < 600; y++)
+	for( int y = 0; y < SCREENHEIGHT; y++ )
 	{
-		memcpy(&((BYTE*)backRect.pBits)[backRect.Pitch*y], &pSysBuffer[800 * y], sizeof(D3DCOLOR) * 800);
+		memcpy( &((BYTE*)backRect.pBits)[ backRect.Pitch * y ],&pSysBuffer[ SCREENWIDTH * y ],sizeof( D3DCOLOR ) * SCREENWIDTH );
 	}
 
 	result = pBackBuffer->UnlockRect();
@@ -293,20 +291,20 @@ void D3DGraphics::DrawSpriteAlpha( int xoff,int yoff,Sprite* sprite )
 			const D3DCOLOR dst = GetPixel( x + xoff,y + yoff );
 
 			// extract channels
-			const unsigned char srcAlpha =	(src & 0xFF000000) >> 24;
-			const unsigned char srcRed =	(src & 0x00FF0000) >> 16;
-			const unsigned char srcGreen =	(src & 0x0000FF00) >>  8;
-			const unsigned char srcBlue =	(src & 0x000000FF);
-			const unsigned char dstRed =	(dst & 0x00FF0000) >> 16;
-			const unsigned char dstGreen =	(dst & 0x0000FF00) >>  8;
-			const unsigned char dstBlue =	(dst & 0x000000FF);
+			const unsigned char srcAlpha =	(const unsigned char)((src & 0xFF000000) >> 24);
+			const unsigned char srcRed =	(const unsigned char)((src & 0x00FF0000) >> 16);
+			const unsigned char srcGreen =	(const unsigned char)((src & 0x0000FF00) >>  8);
+			const unsigned char srcBlue =	(const unsigned char)((src & 0x000000FF));
+			const unsigned char dstRed =	(const unsigned char)((dst & 0x00FF0000) >> 16);
+			const unsigned char dstGreen =	(const unsigned char)((dst & 0x0000FF00) >>  8);
+			const unsigned char dstBlue =	(const unsigned char)((dst & 0x000000FF));
 
 			// blend channels
 			const unsigned char rltRed = (srcRed * srcAlpha + dstRed * (255 - srcAlpha)) / 255;
 			const unsigned char rltGreen = (srcGreen * srcAlpha + dstGreen * (255 - srcAlpha)) / 255;
 			const unsigned char rltBlue = (srcBlue * srcAlpha + dstBlue * (255 - srcAlpha)) / 255;
 
-			// pack channels back into pixel and fires pixel onto backbuffer
+			// pack channels back into pixel and fire pixel onto backbuffer
 			PutPixel( x + xoff,y + yoff,D3DCOLOR_XRGB( rltRed,rltGreen,rltBlue ) );
 		}
 	}

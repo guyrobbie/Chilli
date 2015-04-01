@@ -1,5 +1,5 @@
 /****************************************************************************************** 
- *	Chili DirectX Framework Version 12.04.24											  *	
+ *	Chili DirectX Framework Version 12.10.21											  *	
  *	D3DGraphics.h																		  *
  *	Copyright 2012 PlanetChili <http://www.planetchili.net>								  *
  *																						  *
@@ -21,6 +21,10 @@
 #pragma once
 
 #include <d3d9.h>
+
+#define SCREENWIDTH 800
+#define SCREENHEIGHT 600
+#define FILLVALUE 0x00
 
 struct Sprite
 {

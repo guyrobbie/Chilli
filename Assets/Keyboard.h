@@ -20,15 +20,20 @@
  ******************************************************************************************/
 #pragma once
 
+#include <queue>
+
 class KeyboardServer;
 
 class KeyboardClient
 {
 public:
-	KeyboardClient( const KeyboardServer& kServer );
+	KeyboardClient( KeyboardServer& kServer );
 	bool KeyIsPressed(unsigned char keycode) const;
+	unsigned char ReadKey();
+	unsigned char PeekKey();
+	void FlushBuffer();
 private:
-	const KeyboardServer& server;
+	KeyboardServer& server;
 };
 
 class KeyboardServer
@@ -43,4 +48,5 @@ public:
 private:
 	static const int nKeys = 256;
 	bool keyState[nKeys];
+	std::queue<unsigned char> keyBuffer;
 };

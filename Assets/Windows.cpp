@@ -41,6 +41,8 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 			break;
 		case WM_KEYUP:
 			kServ.OnKeyReleased(wParam);
+			break;
+
 		// ************ END KEYBOARD MESSAGES ************ //
 
 		// ************ MOUSE MESSAGES ************ //

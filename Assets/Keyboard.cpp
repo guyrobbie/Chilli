@@ -19,9 +19,10 @@
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
 #include "Keyboard.h"
+#include "windows.h"
 
 
-KeyboardClient::KeyboardClient( const KeyboardServer& kServer )
+KeyboardClient::KeyboardClient( KeyboardServer& kServer )
 	: server( kServer )
 {}
 
@@ -30,7 +31,13 @@ bool KeyboardClient::KeyIsPressed(unsigned char keycode) const
 	return server.keyState[keycode];
 }
 
-
+void KeyboardClient::FlushBuffer()
+{
+	while (!server.keyBuffer.empty())
+	{
+		server.keyBuffer.pop();
+	}
+}
 
 
 KeyboardServer::KeyboardServer()
@@ -44,9 +51,39 @@ KeyboardServer::KeyboardServer()
 void KeyboardServer::OnKeyPressed(unsigned char keycode)
 {
 	keyState[keycode] = true;
+	if (!keyState[VK_SHIFT])
+	{
+		if (keycode > 'A' && keycode < 'Z')
+		{
+			keycode = towlower(keycode);
+		}
+	}
+	keyBuffer.push(keycode);
+	
+}
+
+unsigned char KeyboardClient::ReadKey()
+{
+	unsigned char keycode = server.keyBuffer.front();
+	server.keyBuffer.pop();
+	return keycode;
+
+}
+
+unsigned char KeyboardClient::PeekKey()
+{
+	if (server.keyBuffer.size() > 0)
+	{
+		return server.keyBuffer.front();
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 void KeyboardServer::OnKeyReleased(unsigned char keycode)
 {
 	keyState[keycode] = false;
 }
+

@@ -26,7 +26,7 @@
 
 extern FrameTimer timer;
 
-Game::Game( HWND hWnd,const KeyboardServer& kServer,const MouseServer& mServer )
+Game::Game( HWND hWnd, KeyboardServer& kServer,const MouseServer& mServer )
 :	gfx( hWnd ),
 	audio( hWnd ),
 	kbd( kServer ),
@@ -50,6 +50,8 @@ Game::Game( HWND hWnd,const KeyboardServer& kServer,const MouseServer& mServer )
 	LoadSprite( &backgroundSprite,"badhaircut.bmp",800,600,D3DCOLOR_XRGB( 255,0,255 ) );
 
 	LoadSpriteAlpha( &alphaSprite );
+
+	textBuffer[0] = 0;
 }
 
 Game::~Game()
@@ -122,7 +124,21 @@ void Game::Go()
 			dudes[ index ].y = rand() % (600 - dudes[ index ].templat->frames[ 0 ].height);
 		}
 		UpdateAnimation( &dudes[ index ] );
+
+		while (kbd.PeekKey())
+		{
+			unsigned char keypress = kbd.ReadKey();
+			if (keypress >= 'a' && keypress <= 'z' || keypress >= 'A' && keypress <= 'Z')
+			{
+				int len = strlen(textBuffer);
+				textBuffer[len] = keypress;
+				textBuffer[len+1] = 0;
+			}
+		}
+		
 	}
+
+
 
 	gfx.BeginFrame();
 	ComposeFrame();
@@ -147,4 +163,5 @@ void Game::ComposeFrame()
 	gfx.DrawString( buffer,0,0,&fixedSys,D3DCOLOR_XRGB( 255,0,0 ) );
 	sprintf(buffer, "Min render time: %.2f | Max render time: %.2f", timer.GetMin(), timer.GetMax());
 	gfx.DrawString( buffer,0,28,&fixedSys,D3DCOLOR_XRGB( 255,0,0 ) );
+	gfx.DrawString(textBuffer, 0, 50, &fixedSys, D3DCOLOR_XRGB(0, 0, 255));
 }

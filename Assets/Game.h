@@ -19,6 +19,7 @@
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
 #pragma once
+#include <Windows.h>
 
 #include "D3DGraphics.h"
 #include "Keyboard.h"
@@ -55,7 +56,7 @@ public:
 
 
 public:
-	Game( HWND hWnd,const KeyboardServer& kServer,const MouseServer& mServer );
+	Game( HWND hWnd,KeyboardServer& kServer,const MouseServer& mServer );
 	~Game();
 	void LoadAnimatedSprite( AnimatedSpriteTemplate* templat,
 		const char* basename,int width,int height,D3DCOLOR key,int nFrames,int frameDuration );
@@ -87,6 +88,7 @@ private:
 	D3DCOLOR fontSurf[ 512 * 84 ];
 	Font fixedSys;
 
+	char textBuffer[80];
 
 	/********************************/
 };

@@ -96,6 +96,7 @@
     <ClInclude Include="..\Assets\Resource.h" />
     <ClInclude Include="..\Assets\Sound.h" />
     <ClInclude Include="..\Assets\Timer.h" />
+    <ClInclude Include="Surface.h" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="..\Assets\ChiliDirectXFramework.res" />

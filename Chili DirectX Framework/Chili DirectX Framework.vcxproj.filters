@@ -68,6 +68,9 @@
     <ClInclude Include="..\Assets\FrameTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Surface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="..\Assets\ChiliDirectXFramework.res">

@@ -74,9 +74,6 @@
     <ClInclude Include="..\Assets\SurfaceSequence.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Assets\tile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="..\Assets\ChiliDirectXFramework.res">

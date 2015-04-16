@@ -1,5 +1,5 @@
 /****************************************************************************************** 
- *	Chili DirectX Framework Version 12.04.24											  *	
+ *	Chili DirectX Framework Version 12.10.21											  *	
  *	Mouse.h																		  *
  *	Copyright 2012 PlanetChili <http://www.planetchili.net>								  *
  *																						  *

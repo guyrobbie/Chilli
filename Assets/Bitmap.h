@@ -11,7 +11,7 @@ struct BitmapFileHeader
 struct BitmapInfoHeader
 {
    unsigned int headerSize;            
-   int width,height;             
+   int width,height;
    unsigned short planes;    
    unsigned short bits;      
    unsigned int compression;     

@@ -1,5 +1,5 @@
 /****************************************************************************************** 
- *	Chili DirectX Framework Version 12.04.24											  *	
+ *	Chili DirectX Framework Version 12.10.21											  *	
  *	Sound.cpp																			  *
  *	Copyright 2012 PlanetChili.net														  *
  *  Based on code obtained from http://www.rastertek.com								  *

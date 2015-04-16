@@ -27,7 +27,6 @@
 #include "Timer.h"
 #include "FrameTimer.h"
 #include "SurfaceSequence.h"
-#include "tile.h"
 
 class Game
 {
@@ -50,9 +49,7 @@ private:
 	/*  User Variables              */
 
 	SurfaceSequence s;
-	Tile t;
-	Tile t2;
+	int x, y;
 
-	int x,y;
 	/********************************/
 };

@@ -1,8 +1,10 @@
-﻿Build started 4/1/2015 9:43:21 PM.
+﻿Build started 4/16/2015 9:31:45 PM.
      1>Project "C:\Users\GuyR\GitHub\Chilli\Chilli\Chili DirectX Framework\Chili DirectX Framework.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\Assets\Windows.cpp
-         Windows.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\Assets\Game.cpp
+         Game.cpp
+     1>c:\users\guyr\github\chilli\chilli\assets\SurfaceSequence.h(18): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\guyr\github\chilli\chilli\assets\SurfaceSequence.h(28): warning C4018: '<' : signed/unsigned mismatch
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\GuyR\GitHub\Chilli\Chilli\Release\Chili DirectX Framework.exe" /INCREMENTAL:NO /NOLOGO dxerr.lib dxguid.lib d3dx9.lib d3dx10.lib d3d9.lib winmm.lib comctl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\GuyR\GitHub\Chilli\Chilli\Release\Chili DirectX Framework.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\GuyR\GitHub\Chilli\Chilli\Release\Chili DirectX Framework.lib" /MACHINE:X86 /SAFESEH Release\Bitmap.obj
          Release\D3DGraphics.obj
@@ -20,4 +22,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.39
+Time Elapsed 00:00:01.43

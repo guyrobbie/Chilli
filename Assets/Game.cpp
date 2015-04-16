@@ -24,11 +24,17 @@
 #include <time.h>
 #include <float.h>
 
-Game::Game( HWND hWnd,KeyboardServer& kServer,const MouseServer& mServer )
-:	gfx( hWnd ),
-	audio( hWnd ),
-	kbd( kServer ),
-	mouse( mServer )
+
+Game::Game(HWND hWnd, KeyboardServer& kServer, const MouseServer& mServer)
+	: gfx(hWnd),
+	audio(hWnd),
+	kbd(kServer),
+	mouse(mServer),
+	s(std::wstring(L"StickRun\\run"), 13,4),
+	t(new Surface(std::wstring (L"soltile.bmp")),400,230),
+	t2(new KeyedSurface(std::wstring(L"transtile.bmp"),D3DCOLOR_XRGB(255,1,255)), 450, 230),
+	x(0),
+	y(200)
 {
 	srand( (unsigned int)time( NULL ) );
 }
@@ -39,6 +45,16 @@ Game::~Game()
 
 void Game::Go()
 {
+	if (kbd.KeyIsPressed(VK_UP))
+		y--;
+	if (kbd.KeyIsPressed(VK_DOWN))
+		y++;
+	if (kbd.KeyIsPressed(VK_LEFT))
+		x -= 2;
+	if (kbd.KeyIsPressed(VK_RIGHT))
+		x += 2;
+
+	s.Advance();
 	gfx.BeginFrame();
 	ComposeFrame();
 	gfx.EndFrame();
@@ -46,4 +62,7 @@ void Game::Go()
 
 void Game::ComposeFrame()
 {
+	s.Draw(x, y, gfx);
+	t.Draw(gfx);
+	t2.Draw(gfx);
 }

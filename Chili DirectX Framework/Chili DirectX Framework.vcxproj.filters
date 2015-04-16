@@ -68,7 +68,13 @@
     <ClInclude Include="..\Assets\FrameTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Surface.h">
+    <ClInclude Include="..\Assets\Surface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\SurfaceSequence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -27,6 +27,8 @@
 #include "Timer.h"
 #include "FrameTimer.h"
 #include "SurfaceSequence.h"
+#include "Tilemap.h"
+#include "TestMapString.h"
 
 class Game
 {
@@ -49,6 +51,7 @@ private:
 	/*  User Variables              */
 
 	SurfaceSequence s;
+	Tilemap t;
 	int x, y;
 
 	/********************************/

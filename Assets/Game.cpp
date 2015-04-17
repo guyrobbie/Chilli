@@ -24,6 +24,7 @@
 #include <time.h>
 #include <float.h>
 
+
 Game::Game( HWND hWnd,KeyboardServer& kServer,const MouseServer& mServer )
 :	gfx( hWnd ),
 	audio( hWnd ),
@@ -31,7 +32,8 @@ Game::Game( HWND hWnd,KeyboardServer& kServer,const MouseServer& mServer )
 	mouse( mServer ),
 	s( std::wstring( L"StickRun\\run" ),13,4 ),
 	x( 0 ),
-	y( 200 )
+	y( 200 ),
+	t(testMap, MAPWIDTH, MAPHEIGHT, TILESIZE, TILESIZE)
 {
 	srand( (unsigned int)time( NULL ) );
 }
@@ -56,5 +58,6 @@ void Game::Go()
 
 void Game::ComposeFrame()
 {
+	t.Draw(gfx);
 	s.Draw( x,y,gfx );
 }

@@ -26,14 +26,6 @@
 #define SCREENHEIGHT 600
 #define FILLVALUE 0xE0
 
-struct Sprite
-{
-	int width;
-	int height;
-	D3DCOLOR key;
-	D3DCOLOR* surface;
-};
-
 struct Font
 {
 	int charWidth;
@@ -41,13 +33,6 @@ struct Font
 	int nCharsPerRow;
 	D3DCOLOR* surface;
 };
-
-void LoadSprite( Sprite* sprite,const char* filename,
-	unsigned int width,unsigned int height,D3DCOLOR key );
-
-void LoadSpriteAlpha( Sprite* sprite );
-
-void FreeSprite( Sprite* sprite );
 
 void LoadFont( Font* font,D3DCOLOR* surface,const char* filename,
 	int charWidth,int charHeight,int nCharsPerRow );
@@ -63,8 +48,6 @@ public:
 	void DrawLine( int x1,int y1,int x2,int y2,int r,int g,int b );
 	void DrawCircle( int cx,int cy,int radius,int r,int g,int b );
 	void DrawDisc( int cx,int cy,int r,int rd,int g,int b );
-	void DrawSprite( int x,int y,Sprite* sprite );
-	void DrawSpriteAlpha( int xoff,int yoff,Sprite* sprite );
 	void DrawChar( char c,int x,int y,Font* font,D3DCOLOR color );
 	void DrawString( const char* string,int x,int y,Font* font,D3DCOLOR color );
 	void BeginFrame();

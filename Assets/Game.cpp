@@ -30,10 +30,8 @@ Game::Game( HWND hWnd,KeyboardServer& kServer,const MouseServer& mServer )
 	audio( hWnd ),
 	kbd( kServer ),
 	mouse( mServer ),
-	s( std::wstring( L"StickRun\\run" ),13,4 ),
-	x( 0 ),
-	y( 200 ),
-	t(testMap, MAPWIDTH, MAPHEIGHT, TILESIZE, TILESIZE)
+	t(testMap, MAPWIDTH, MAPHEIGHT, TILESIZE, TILESIZE),
+	c(p,kbd)
 {
 	srand( (unsigned int)time( NULL ) );
 }
@@ -44,12 +42,8 @@ Game::~Game()
 
 void Game::Go()
 {
-	x += 6;
-	if( x > SCREENWIDTH )
-	{
-		x = -100;
-	}
-	s.Advance();
+	c.Poll();
+	p.GetState().OnUpdate();
 
 	gfx.BeginFrame();
 	ComposeFrame();
@@ -59,5 +53,5 @@ void Game::Go()
 void Game::ComposeFrame()
 {
 	t.Draw(gfx);
-	s.Draw( x,y,gfx );
+	p.Draw(gfx);
 }

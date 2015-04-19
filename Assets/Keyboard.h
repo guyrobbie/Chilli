@@ -22,6 +22,44 @@
 #include <Windows.h>
 #include <queue>
 
+class KeyEvent
+{
+public:
+	enum EventType
+	{
+		Press,
+		Release,
+		Invalid
+	};
+
+private:
+	EventType type;
+	unsigned char code;
+public:
+	KeyEvent(EventType type, unsigned char code)
+		:
+		type(type),
+		code(code)
+	{}
+	bool IsPressed() const
+	{
+		return type == Press;
+	}
+	bool IsRelease() const
+	{
+		return type == Release;
+	}
+	bool IsValid() const
+	{
+		return type != Invalid;
+	}
+	unsigned char GetCode() const
+	{
+		return code;
+	}
+
+};
+
 class KeyboardServer;
 
 class KeyboardClient
@@ -29,10 +67,12 @@ class KeyboardClient
 public:
 	KeyboardClient( KeyboardServer& kServer );
 	bool KeyIsPressed( unsigned char keycode ) const;
-	unsigned char ReadKey();
-	unsigned char PeekKey() const;
+	KeyEvent ReadKey();
+	KeyEvent PeekKey() const;
+	bool KeyEmpty() const;
 	unsigned char ReadChar();
 	unsigned char PeekChar() const;
+	bool CharEmpty() const;
 	void FlushKeyBuffer();
 	void FlushCharBuffer();
 	void FlushBuffers();
@@ -52,6 +92,6 @@ private:
 	static const int nKeys = 256;
 	static const int bufferSize = 4;
 	bool keystates[ nKeys ];
-	std::queue<unsigned char> keybuffer;
+	std::queue<KeyEvent> keybuffer;
 	std::queue<unsigned char> charbuffer;
 };

@@ -26,9 +26,11 @@
 #include "Sound.h"
 #include "Timer.h"
 #include "FrameTimer.h"
-#include "SurfaceSequence.h"
+#include "PlayerSprite.h"
 #include "Tilemap.h"
 #include "TestMapString.h"
+#include "PlayerSprite.h"
+#include "SpriteController.h"
 
 class Game
 {
@@ -50,9 +52,9 @@ private:
 	/********************************/
 	/*  User Variables              */
 
-	SurfaceSequence s;
+	PlayerSprite p;
 	Tilemap t;
-	int x, y;
+	SpriteController c;
 
 	/********************************/
 };

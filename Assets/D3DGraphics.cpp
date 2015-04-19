@@ -27,46 +27,6 @@
 #include "FrameTimer.h"
 #pragma comment( lib,"gdiplus.lib" )
 
-void LoadSprite( Sprite* sprite,const char* filename,
-	unsigned int width,unsigned int height,D3DCOLOR key )
-{
-	sprite->surface = (D3DCOLOR*)malloc( sizeof( D3DCOLOR ) * width * height );
-	LoadBmp( filename,sprite->surface );
-	sprite->height = height;
-	sprite->width = width;
-	sprite->key = key;
-}
-
-void LoadSpriteAlpha( Sprite* sprite )
-{	
-	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
-	ULONG_PTR           gdiplusToken;
-	Gdiplus::GdiplusStartup( &gdiplusToken,&gdiplusStartupInput,NULL );
-
-	Gdiplus::Bitmap bitmap( L"alphahalf.png" );
-	Gdiplus::Color pixel;
-
-	sprite->height = bitmap.GetHeight();
-	sprite->width = bitmap.GetWidth();
-	sprite->key = 0x010301F3;
-	sprite->surface = (D3DCOLOR*)malloc( sizeof( D3DCOLOR ) * sprite->height * sprite->width );
-
-	for( unsigned int y = 0; y < bitmap.GetHeight(); y++ )
-	{
-		for( unsigned int x = 0; x < bitmap.GetWidth(); x++ )
-		{
-			bitmap.GetPixel( x,y,&pixel );
-			sprite->surface[ x + y * bitmap.GetWidth() ] = 
-				D3DCOLOR_ARGB( pixel.GetA(),pixel.GetR(),pixel.GetG(),pixel.GetB() );
-		}
-	}
-}
-
-void FreeSprite( Sprite* sprite )
-{
-	free( sprite->surface );
-}
-
 void LoadFont( Font* font,D3DCOLOR* surface,const char* filename,
 	int charWidth,int charHeight,int nCharsPerRow )
 {
@@ -262,51 +222,6 @@ void D3DGraphics::DrawCircle( int centerX,int centerY,int radius,int r,int g,int
 		PutPixel( centerX - y,centerY + x,r,g,b );
 		PutPixel( centerX + y,centerY - x,r,g,b );
 		PutPixel( centerX - y,centerY - x,r,g,b );
-	}
-}
-
-void D3DGraphics::DrawSprite( int xoff,int yoff,Sprite* sprite )
-{
-	for( int y = 0; y < sprite->height; y++ )
-	{
-		for( int x = 0; x < sprite->width; x++ )
-		{
-			D3DCOLOR c = sprite->surface[ x + y * sprite->width ];
-			if( c != sprite->key )
-			{
-				PutPixel( x + xoff,y + yoff,c );
-			}
-		}
-	}
-}
-
-void D3DGraphics::DrawSpriteAlpha( int xoff,int yoff,Sprite* sprite )
-{
-	for( int y = 0; y < sprite->height; y++ )
-	{
-		for( int x = 0; x < sprite->width; x++ )
-		{
-			// load source and destination pixels
-			const D3DCOLOR src = sprite->surface[ x + y * sprite->width ];
-			const D3DCOLOR dst = GetPixel( x + xoff,y + yoff );
-
-			// extract channels
-			const unsigned char srcAlpha =	(const unsigned char)((src & 0xFF000000) >> 24);
-			const unsigned char srcRed =	(const unsigned char)((src & 0x00FF0000) >> 16);
-			const unsigned char srcGreen =	(const unsigned char)((src & 0x0000FF00) >>  8);
-			const unsigned char srcBlue =	(const unsigned char)((src & 0x000000FF));
-			const unsigned char dstRed =	(const unsigned char)((dst & 0x00FF0000) >> 16);
-			const unsigned char dstGreen =	(const unsigned char)((dst & 0x0000FF00) >>  8);
-			const unsigned char dstBlue =	(const unsigned char)((dst & 0x000000FF));
-
-			// blend channels
-			const unsigned char rltRed = (srcRed * srcAlpha + dstRed * (255 - srcAlpha)) / 255;
-			const unsigned char rltGreen = (srcGreen * srcAlpha + dstGreen * (255 - srcAlpha)) / 255;
-			const unsigned char rltBlue = (srcBlue * srcAlpha + dstBlue * (255 - srcAlpha)) / 255;
-
-			// pack channels back into pixel and fire pixel onto backbuffer
-			PutPixel( x + xoff,y + yoff,D3DCOLOR_XRGB( rltRed,rltGreen,rltBlue ) );
-		}
 	}
 }
 

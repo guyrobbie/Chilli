@@ -29,21 +29,21 @@ bool KeyboardClient::KeyIsPressed( unsigned char keycode ) const
 	return server.keystates[ keycode ];
 }
 
-unsigned char KeyboardClient::ReadKey()
+KeyEvent  KeyboardClient::ReadKey()
 {
 	if( server.keybuffer.size() > 0 )
 	{
-		unsigned char keycode = server.keybuffer.front();
+		KeyEvent e = server.keybuffer.front();
 		server.keybuffer.pop();
-		return keycode;
+		return e;
 	}
 	else
 	{
-		return 0;
+		return KeyEvent(KeyEvent::Invalid,0);
 	}
 }
 
-unsigned char KeyboardClient::PeekKey() const
+KeyEvent  KeyboardClient::PeekKey() const
 {	
 	if( server.keybuffer.size() > 0 )
 	{
@@ -51,8 +51,18 @@ unsigned char KeyboardClient::PeekKey() const
 	}
 	else
 	{
-		return 0;
+		return KeyEvent(KeyEvent::Invalid, 0);
 	}
+}
+
+bool KeyboardClient::KeyEmpty() const
+{
+	return server.keybuffer.empty();
+}
+
+bool KeyboardClient::CharEmpty() const
+{
+	return server.keybuffer.empty();
 }
 
 unsigned char KeyboardClient::ReadChar()
@@ -115,7 +125,7 @@ void KeyboardServer::OnKeyPressed( unsigned char keycode )
 {
 	keystates[ keycode ] = true;
 	
-	keybuffer.push( keycode );
+	keybuffer.push( KeyEvent(KeyEvent::Press, keycode) );
 	if( keybuffer.size() > bufferSize )
 	{
 		keybuffer.pop();
@@ -125,6 +135,11 @@ void KeyboardServer::OnKeyPressed( unsigned char keycode )
 void KeyboardServer::OnKeyReleased( unsigned char keycode )
 {
 	keystates[ keycode ] = false;
+	keybuffer.push(KeyEvent(KeyEvent::Release, keycode));
+	if (keybuffer.size() > bufferSize)
+	{
+		keybuffer.pop();
+	}
 }
 
 void KeyboardServer::OnChar( unsigned char character )

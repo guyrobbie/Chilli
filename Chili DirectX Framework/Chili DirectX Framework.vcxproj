@@ -85,7 +85,11 @@
     <ClCompile Include="..\Assets\Game.cpp" />
     <ClCompile Include="..\Assets\Keyboard.cpp" />
     <ClCompile Include="..\Assets\Mouse.cpp" />
+    <ClCompile Include="..\Assets\PlayerRunning.cpp" />
+    <ClCompile Include="..\Assets\PlayerStanding.cpp" />
     <ClCompile Include="..\Assets\Sound.cpp" />
+    <ClCompile Include="..\Assets\Sprite.cpp" />
+    <ClCompile Include="..\Assets\SpriteController.cpp" />
     <ClCompile Include="..\Assets\TestMapString.cpp" />
     <ClCompile Include="..\Assets\Tile.cpp" />
     <ClCompile Include="..\Assets\Tilemap.cpp" />
@@ -99,8 +103,15 @@
     <ClInclude Include="..\Assets\Game.h" />
     <ClInclude Include="..\Assets\Keyboard.h" />
     <ClInclude Include="..\Assets\Mouse.h" />
+    <ClInclude Include="..\Assets\PlayerRunning.h" />
+    <ClInclude Include="..\Assets\PlayerSprite.h" />
+    <ClInclude Include="..\Assets\PlayerStanding.h" />
     <ClInclude Include="..\Assets\Resource.h" />
     <ClInclude Include="..\Assets\Sound.h" />
+    <ClInclude Include="..\Assets\Sprite.h" />
+    <ClInclude Include="..\Assets\SpriteController.h" />
+    <ClInclude Include="..\Assets\SpriteCore.h" />
+    <ClInclude Include="..\Assets\SpriteState.h" />
     <ClInclude Include="..\Assets\Surface.h" />
     <ClInclude Include="..\Assets\SurfaceSequence.h" />
     <ClInclude Include="..\Assets\TestMapString.h" />

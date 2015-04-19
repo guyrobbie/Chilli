@@ -7,12 +7,14 @@
 class SurfaceSequence
 {
 public:
-	SurfaceSequence( std::wstring basename,unsigned int nSurfaces,unsigned int nHoldFrames,D3DCOLOR key = D3DCOLOR_XRGB( 255,255,255 ) )
+	SurfaceSequence( std::wstring basename,unsigned int nSurfaces,unsigned int nHoldFrames, int basex, int basey,D3DCOLOR key = D3DCOLOR_XRGB( 255,255,255 ) )
 		:
 	nSurfaces( nSurfaces ),
 	nHoldFrames( nHoldFrames ),
 	iCurSurface( 0 ),
-	curHoldCount( 0 )
+	curHoldCount( 0 ),
+	basex(basex),
+	basey(basey)
 	{
 		surfaces = new KeyedSurface*[ nSurfaces ];
 		for( int index = 0; index < nSurfaces; index++ )
@@ -33,7 +35,7 @@ public:
 	}
 	void Draw( int x,int y,D3DGraphics& gfx ) const
 	{
-		surfaces[ iCurSurface ]->Draw( x,y,gfx );
+		surfaces[ iCurSurface ]->Draw( x - basex, y - basey,gfx );
 	}
 	void Advance()
 	{
@@ -52,4 +54,5 @@ private:
 	const unsigned int nHoldFrames;
 	unsigned int iCurSurface;
 	unsigned int curHoldCount;
+	int basex, basey;
 };

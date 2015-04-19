@@ -1,0 +1,32 @@
+﻿Build started 4/19/2015 5:27:54 PM.
+     1>Project "C:\Users\GuyR\GitHub\Chilli\Chilli\Chili DirectX Framework\Chili DirectX Framework.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\Assets\SpriteController.cpp
+         SpriteController.cpp
+     1>c:\users\guyr\github\chilli\chilli\assets\surface.h(41): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\guyr\github\chilli\chilli\assets\surface.h(42): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\guyr\github\chilli\chilli\assets\surfacesequence.h(20): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\guyr\github\chilli\chilli\assets\surfacesequence.h(29): warning C4018: '<' : signed/unsigned mismatch
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\GuyR\GitHub\Chilli\Chilli\Debug\Platformer.exe" /INCREMENTAL /NOLOGO dxerr.lib dxguid.lib d3dx9.lib d3dx10.lib d3d9.lib winmm.lib comctl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\GuyR\GitHub\Chilli\Chilli\Debug\Platformer.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\GuyR\GitHub\Chilli\Chilli\Debug\Platformer.lib" /MACHINE:X86 Debug\Bitmap.obj
+         Debug\D3DGraphics.obj
+         Debug\Game.obj
+         Debug\Keyboard.obj
+         Debug\Mouse.obj
+         Debug\PlayerRunning.obj
+         Debug\PlayerStanding.obj
+         Debug\Sound.obj
+         Debug\Sprite.obj
+         Debug\SpriteController.obj
+         Debug\TestMapString.obj
+         Debug\Tile.obj
+         Debug\Tilemap.obj
+         Debug\Timer.obj
+         Debug\Windows.obj
+         ..\Assets\ChiliDirectXFramework.res
+         Chili DirectX Framework.vcxproj -> C:\Users\GuyR\GitHub\Chilli\Chilli\Debug\Platformer.exe
+     1>Done Building Project "C:\Users\GuyR\GitHub\Chilli\Chilli\Chili DirectX Framework\Chili DirectX Framework.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.45

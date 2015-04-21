@@ -134,6 +134,9 @@
     <ClInclude Include="..\Assets\BiDirection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Assets\BiSurfaceSequence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="..\Assets\ChiliDirectXFramework.res">

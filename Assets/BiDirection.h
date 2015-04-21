@@ -13,14 +13,14 @@ public:
 		dir = Invalid;
 	}
 
-	static BiDirection Right()
+	static BiDirection MakeRight()
 	{
 		BiDirection d;
 		d.SetRight();
 		return d;
 	}
-
-	static BiDirection Left()
+					   
+	static BiDirection MakeLeft()
 	{
 		BiDirection d;
 		d.SetLeft();

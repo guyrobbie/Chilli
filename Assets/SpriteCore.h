@@ -1,11 +1,11 @@
 #pragma once
-#include "SurfaceSequence.h"
+#include "BiSurfaceSequence.h"
 
 class SpriteCore
 {
 public:
 	float x, y;
-	SurfaceSequence* currentSeq;
-	SurfaceSequence** seqs;
+	BiSurfaceSequence* currentSeq;
+	BiSurfaceSequence** seqs;
 	class SpriteState* state;
 };

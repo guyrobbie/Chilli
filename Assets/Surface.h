@@ -30,6 +30,7 @@ public:
 			}
 		}
 	}
+
 	~Surface()
 	{
 		delete [] surface;
@@ -49,6 +50,31 @@ public:
 			}
 		}
 	}
+	virtual Surface* CloneMirrored() const
+	{
+		return new Surface(width, height, GetMirroredPixels());
+	}
+
+protected:
+	virtual D3DCOLOR* GetMirroredPixels() const
+	{
+		D3DCOLOR* mSurf = new D3DCOLOR[width * height];
+		for (unsigned int y = 0; y < height; y++)
+		{
+			for (unsigned int x = 0; x < width; x++)
+			{
+				int mx = width - (x + 1);
+				mSurf[mx + y * width] = surface[y * width];
+			}
+		}
+		return mSurf;
+	}
+	Surface(unsigned int width, unsigned int height, D3DCOLOR* surf)
+		:
+		width(width),
+		height(height),
+		surface(surf)
+	{}
 
 protected:
 	unsigned int width;
@@ -64,25 +90,36 @@ public:
 	Surface( filename ),
 	key( key )
 	{}
-	virtual void Draw( int xoff,int yoff,D3DGraphics& gfx ) const
-	{		
-		const int yStart = max( -yoff, 0 );
-		const int xStart = max( -xoff, 0 );
-		const int yEnd = min( SCREENHEIGHT - yoff,(int)height );
-		const int xEnd = min( SCREENWIDTH - xoff,(int)width );
+	virtual void Draw(int xoff, int yoff, D3DGraphics& gfx) const
+	{
+		const int yStart = max(-yoff, 0);
+		const int xStart = max(-xoff, 0);
+		const int yEnd = min(SCREENHEIGHT - yoff, (int)height);
+		const int xEnd = min(SCREENWIDTH - xoff, (int)width);
 
-		for( int y = yStart; y < yEnd; y++ )
+		for (int y = yStart; y < yEnd; y++)
 		{
-			for( int x = xStart; x < xEnd; x++ )
+			for (int x = xStart; x < xEnd; x++)
 			{
-				D3DCOLOR c = surface[ x + y * width ];
-				if( c != key )
+				D3DCOLOR c = surface[x + y * width];
+				if (c != key)
 				{
-					gfx.PutPixel( x + xoff,y + yoff,c );
+					gfx.PutPixel(x + xoff, y + yoff, c);
 				}
 			}
 		}
 	}
+	virtual Surface* CloneMirrored() const
+	{
+		return new KeyedSurface(width, height, key, GetMirroredPixels());
+	}
+protected:
+	KeyedSurface(unsigned int width, unsigned int height, D3DCOLOR key, D3DCOLOR* surface)
+		:
+		Surface(width, height, surface),
+		key(key)
+	{}
+	
 
 private:
 	D3DCOLOR key;

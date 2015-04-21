@@ -16,7 +16,7 @@ public:
 	basex(basex),
 	basey(basey)
 	{
-		surfaces = new KeyedSurface*[ nSurfaces ];
+		surfaces = new Surface*[ nSurfaces ];
 		for( int index = 0; index < nSurfaces; index++ )
 		{
 			std::wstringstream s;
@@ -24,6 +24,16 @@ public:
 			surfaces[ index ] = new KeyedSurface( basename + s.str() + std::wstring( L".bmp" ),key );
 		}
 	}
+	SurfaceSequence(Surface** surfaces, unsigned int nSurfaces, unsigned int nHoldFrames, int basex, int basey)
+		:
+		surfaces(surfaces),
+		nSurfaces(nSurfaces),
+		nHoldFrames(nHoldFrames),
+		iCurSurface(0),
+		curHoldCount(0),
+		basex(basex),
+		basey(basey)
+	{}
 	~SurfaceSequence()
 	{
 		for( int index = 0; index < nSurfaces; index++ )
@@ -47,9 +57,18 @@ public:
 			curHoldCount = 0;
 		}
 	}
+	SurfaceSequence* CloneMirrored() const
+	{
+		Surface** mSurfaces = new Surface*[nSurfaces];
+		for (int i = 0; i < nSurfaces; i++)
+		{
+			mSurfaces[i] = surfaces[i]->CloneMirrored();
+		}
+		return new SurfaceSequence(mSurfaces, nSurfaces, nHoldFrames, basex, basey);
+	}
 
 private:
-	KeyedSurface** surfaces;
+	Surface** surfaces;
 	const unsigned int nSurfaces;
 	const unsigned int nHoldFrames;
 	unsigned int iCurSurface;

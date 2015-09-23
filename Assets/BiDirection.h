@@ -1,4 +1,6 @@
 #pragma once
+#include "Float.h"
+
 
 class BiDirection
 {
@@ -82,7 +84,7 @@ public:
 		return o;
 	}
 
-	BiDirection Reverse()
+	void Reverse()
 	{
 		if (dir == Left)
 		{
@@ -91,6 +93,21 @@ public:
 		else if (dir == Right)
 		{
 		    SetLeft();
+		}
+	}
+	float Transform(float val) const
+	{
+		if (dir == Left)
+		{
+			return val * -1.0f;
+		}
+		else if (dir == Right)
+		{
+			return val;
+		}
+		else //Invalid
+		{
+			return _FPCLASS_SNAN; // NaN
 		}
 	}
 

@@ -5,11 +5,14 @@
 class PlayerStanding : public SpriteState
 {
 public:
-	PlayerStanding(SpriteCore* core)
+	PlayerStanding(SpriteCore& core)
 		:
 		SpriteState(core)
 	{
-		core->currentSeq = core->seqs[0];
+		core.currentSeq = core.seqs[0];
 	}
-	virtual void OnCtrlRightDown();
+	virtual void OnCtrlDirPress(BiDirection d);
+	virtual void OnCtrlJump();
+	
+
 };

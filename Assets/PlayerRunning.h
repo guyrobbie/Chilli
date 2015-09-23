@@ -6,14 +6,18 @@
 class PlayerRunning : public SpriteState
 {
 public:
-	PlayerRunning(SpriteCore* core)
+	PlayerRunning(SpriteCore& core)
 		:
-		SpriteState(core)
+		SpriteState(core),
+		sx(6.0f)
 	{
-		core->currentSeq = core->seqs[1];
+		core.currentSeq = core.seqs[1];
 	}
-	virtual void OnCtrlRightDown();
-	virtual void OnCtrlRightUp();
 	virtual void OnUpdate();
+	virtual void OnCtrlDirRelease(BiDirection d);
+	virtual void OnCtrlDirPress(BiDirection d);
+	virtual void OnCtrlJump();
+protected:
+	const float sx;
 
 };

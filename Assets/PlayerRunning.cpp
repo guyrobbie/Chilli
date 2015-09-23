@@ -1,17 +1,25 @@
 #include "PlayerRunning.h"
+#include "PlayerJumping.h"
 
-void PlayerRunning::OnCtrlRightDown()
-{}
-
-void PlayerRunning::OnCtrlRightUp()
+void PlayerRunning::OnCtrlDirRelease(BiDirection d)
 {
-	core->state = new  PlayerStanding(core);
-	delete this;
+	if (core.dir == d)
+	{
+		Transition(new PlayerStanding(core));
+	}
 }
 
+void PlayerRunning::OnCtrlDirPress(BiDirection d)
+{
+	core.dir = d;
+}
+void PlayerRunning::OnCtrlJump()
+{
+	Transition(new PlayerJumping(core, sx,true));
+}
 
 void PlayerRunning::OnUpdate()
 {
-	core->x += 2.0f;
-	core->currentSeq->Advance();
+	core.x += core.dir.Transform(sx);
+	core.currentSeq->Advance(core.dir);
 }

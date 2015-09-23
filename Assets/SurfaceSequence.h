@@ -24,7 +24,8 @@ public:
 			surfaces[ index ] = new KeyedSurface( basename + s.str() + std::wstring( L".bmp" ),key );
 		}
 	}
-	SurfaceSequence(Surface** surfaces, unsigned int nSurfaces, unsigned int nHoldFrames, int basex, int basey)
+	SurfaceSequence( Surface** surfaces, unsigned int nSurfaces, unsigned int nHoldFrames, 
+		int basex, int basey)
 		:
 		surfaces(surfaces),
 		nSurfaces(nSurfaces),

@@ -44,7 +44,10 @@ void Game::Go()
 {
 	c.Poll();
 	p.GetState().OnUpdate();
-
+	if (p.GetY() > 575.0f)
+	{
+		p.GetState().OnCollision(575.0f);
+	}
 	gfx.BeginFrame();
 	ComposeFrame();
 	gfx.EndFrame();

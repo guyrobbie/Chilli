@@ -8,4 +8,5 @@ public:
 	BiSurfaceSequence* currentSeq;
 	BiSurfaceSequence** seqs;
 	class SpriteState* state;
+	BiDirection dir;
 };

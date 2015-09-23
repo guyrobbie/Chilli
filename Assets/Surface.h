@@ -64,7 +64,7 @@ protected:
 			for (unsigned int x = 0; x < width; x++)
 			{
 				int mx = width - (x + 1);
-				mSurf[mx + y * width] = surface[y * width];
+				mSurf[mx + y * width] = surface[x + y * width];
 			}
 		}
 		return mSurf;

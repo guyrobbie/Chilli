@@ -85,6 +85,7 @@
     <ClCompile Include="..\Assets\Game.cpp" />
     <ClCompile Include="..\Assets\Keyboard.cpp" />
     <ClCompile Include="..\Assets\Mouse.cpp" />
+    <ClCompile Include="..\Assets\PlayerJumping.cpp" />
     <ClCompile Include="..\Assets\PlayerRunning.cpp" />
     <ClCompile Include="..\Assets\PlayerStanding.cpp" />
     <ClCompile Include="..\Assets\Sound.cpp" />
@@ -105,6 +106,7 @@
     <ClInclude Include="..\Assets\Game.h" />
     <ClInclude Include="..\Assets\Keyboard.h" />
     <ClInclude Include="..\Assets\Mouse.h" />
+    <ClInclude Include="..\Assets\PlayerJumping.h" />
     <ClInclude Include="..\Assets\PlayerRunning.h" />
     <ClInclude Include="..\Assets\PlayerSprite.h" />
     <ClInclude Include="..\Assets\PlayerStanding.h" />

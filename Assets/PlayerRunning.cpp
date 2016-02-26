@@ -1,6 +1,19 @@
 #include "PlayerRunning.h"
 #include "PlayerJumping.h"
 
+void PlayerRunning::OnUpdate()
+{
+	
+	
+	core.vx += core.dir.Transform(sax);
+	core.vx = min(core.vx, maxsx);
+	core.vx = max(core.vx, -maxsx);
+	
+	core.x += core.vx;
+
+	core.currentSeq->Advance(core.dir);
+}
+
 void PlayerRunning::OnCtrlDirRelease(BiDirection d)
 {
 	if (core.dir == d)
@@ -13,13 +26,9 @@ void PlayerRunning::OnCtrlDirPress(BiDirection d)
 {
 	core.dir = d;
 }
-void PlayerRunning::OnCtrlJump()
+
+void PlayerRunning::OnCtrlJumpPress()
 {
-	Transition(new PlayerJumping(core, sx,true));
+	Transition(new PlayerJumping(core, true));
 }
 
-void PlayerRunning::OnUpdate()
-{
-	core.x += core.dir.Transform(sx);
-	core.currentSeq->Advance(core.dir);
-}

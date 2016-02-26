@@ -5,23 +5,30 @@
 class PlayerJumping : public SpriteState
 {
 public:
-	PlayerJumping(SpriteCore& core, float sx, bool isMoving)
+	PlayerJumping(SpriteCore& core, bool isMoving)
 		:
 		SpriteState(core),
-		sx(sx),
 		isMoving(isMoving),
 		ay(0.6f),
-		vy(-12.0f)
+		sax(0.4f),
+		sdx( 0.97f ),
+		maxsx( 7.5f ),
+		isBoosting( true ),
+		sdy( 0.4f )
 	{
+		core.vy = -12.0f;
 		core.currentSeq = core.seqs[2];
 	}
 	virtual void OnUpdate();
-	virtual void OnCollision(const float floorY);
 	virtual void OnCtrlDirPress(BiDirection d);
 	virtual void OnCtrlDirRelease(BiDirection d);
+	virtual void OnCtrlJumpRelease();
 protected:
-	float vy;
-	const float sx;
+	float sax;
+	float sdx; // speed decay coefficient
 	const float ay;
+	const float maxsx;
 	bool isMoving;
+	bool isBoosting;
+	const float sdy; // upwards velocity decay coefficient
 };

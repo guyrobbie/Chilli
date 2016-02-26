@@ -44,10 +44,7 @@ void Game::Go()
 {
 	c.Poll();
 	p.GetState().OnUpdate();
-	if (p.GetY() > 575.0f)
-	{
-		p.GetState().OnCollision(575.0f);
-	}
+	t.DoCollision(p);
 	gfx.BeginFrame();
 	ComposeFrame();
 	gfx.EndFrame();
@@ -56,5 +53,13 @@ void Game::Go()
 void Game::ComposeFrame()
 {
 	t.Draw(gfx);
+	RectFList list;
+	t.GetCRectList(p.GetCRect(), list);
+
+	for (RectFList::iterator i = list.begin(), end = list.end();
+		i != end; i++)
+	{
+		i->Draw(gfx);
+	}
 	p.Draw(gfx);
 }

@@ -30,10 +30,12 @@ void SpriteController::Poll()
 		case VK_SPACE:
 			if (e.IsPressed())
 			{
-				sprite.GetState().OnCtrlJump();
+				sprite.GetState().OnCtrlJumpPress();
 			}			
 			else if (e.IsRelease())
-			{}
+			{
+				sprite.GetState().OnCtrlJumpRelease();
+			}
 			break;
 		}
 	}

@@ -3,26 +3,35 @@
 
 void PlayerJumping::OnUpdate()
 {
-	core.x += core.dir.Transform(sx);
-	core.y += vy;
-	vy += ay;
-}
+	core.x += core.vx;
+	core.y += core.vy;
+	core.vy += ay;
 
-void PlayerJumping::OnCollision( const float floorY)
-{
-	core.y = floorY;
 	if (isMoving)
 	{
-		Transition(new PlayerRunning(core));
+		core.vx += core.dir.Transform(sax);
+		core.vx = min(core.vx, maxsx);
+		core.vx = max(core.vx, -maxsx);
 	}
 	else
 	{
-		Transition(new PlayerStanding(core));
+		core.vx *= sdx;
+	}
+
+	if (!isBoosting && core.vy < 0.0f)
+	{
+		core.vy *= sdy;
+	}
+
+	if (core.vy >= 0.0f)
+	{
+		core.currentSeq = core.seqs[3];
 	}
 }
 
 void PlayerJumping::OnCtrlDirRelease(BiDirection d)
 {
+
 	if (core.dir == d)
 	{
 		isMoving = false;
@@ -31,8 +40,12 @@ void PlayerJumping::OnCtrlDirRelease(BiDirection d)
 
 void PlayerJumping::OnCtrlDirPress(BiDirection d)
 {
-	if (core.dir == d)
-	{
-		isMoving = true;
-	}
+	core.dir = d;
+	isMoving = true;
+
+}
+
+void PlayerJumping::OnCtrlJumpRelease()
+{
+	isBoosting = false;
 }

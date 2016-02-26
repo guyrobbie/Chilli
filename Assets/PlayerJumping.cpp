@@ -29,19 +29,6 @@ void PlayerJumping::OnUpdate()
 	}
 }
 
-void PlayerJumping::OnCollision( const float floorY)
-{
-	core.y = floorY;
-	if (isMoving)
-	{
-		Transition(new PlayerRunning(core));
-	}
-	else
-	{
-		Transition(new PlayerStanding(core));
-	}
-}
-
 void PlayerJumping::OnCtrlDirRelease(BiDirection d)
 {
 

@@ -31,4 +31,3 @@ void PlayerRunning::OnCtrlJumpPress()
 {
 	Transition(new PlayerJumping(core, true));
 }
-

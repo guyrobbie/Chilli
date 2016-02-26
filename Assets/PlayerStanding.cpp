@@ -4,8 +4,8 @@
 
 void PlayerStanding::OnUpdate()
 {
-	core.x += core.vx;
 	core.vx *= sdx;
+	core.x += core.vx;
 }
 
 void PlayerStanding::OnCtrlDirPress(BiDirection d)

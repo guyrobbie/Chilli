@@ -1,13 +1,14 @@
 #pragma once
 
 #include "SpriteState.h"
+#include "PlayerMovingHorizontally.h"
 
-class PlayerStanding : public SpriteState
+class PlayerStanding : public PlayerMovingHorizontally
 {
 public:
 	PlayerStanding(SpriteCore& core)
 		:
-		SpriteState(core),
+		PlayerMovingHorizontally(core),
 		sdx( 0.92f )
 	{
 		core.currentSeq = core.seqs[0];

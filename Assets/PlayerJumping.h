@@ -20,7 +20,6 @@ public:
 		core.currentSeq = core.seqs[2];
 	}
 	virtual void OnUpdate();
-	virtual void OnCollision(const float floorY);
 	virtual void OnCtrlDirPress(BiDirection d);
 	virtual void OnCtrlDirRelease(BiDirection d);
 	virtual void OnCtrlJumpRelease();

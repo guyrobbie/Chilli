@@ -2,13 +2,14 @@
 
 #include "SpriteState.h"
 #include "PlayerStanding.h"
+#include "PlayerMovingHorizontally.h"
 
-class PlayerRunning : public SpriteState
+class PlayerRunning : public PlayerMovingHorizontally
 {
 public:
 	PlayerRunning(SpriteCore& core)
 		:
-		SpriteState(core),
+		PlayerMovingHorizontally(core),
 		sax( 0.4f ),
 		maxsx( 12.0f )
 	{

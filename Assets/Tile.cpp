@@ -15,7 +15,7 @@ Tile::Tile(int x, int y, bool passable, D3DCOLOR color)
 Tile::~Tile()
 {}
 
-const void Tile::Draw(D3DGraphics &gfx)
+void Tile::Draw(D3DGraphics &gfx) const
 {
 	// Was too lazy to write a method in Graphics to Draw Rectangle.
 	for (int iy = y; iy < y + height; iy++)

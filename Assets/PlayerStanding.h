@@ -16,6 +16,7 @@ public:
 	virtual void OnCtrlDirPress(BiDirection d);
 	virtual void OnCtrlJumpPress();
 	virtual void OnUpdate();
+	virtual void OnUnsupported();
 protected:
 	const float sdx; // speed decay coefficient
 };

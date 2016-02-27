@@ -18,3 +18,8 @@ void PlayerStanding::OnCtrlJumpPress()
 {
 	Transition(new PlayerJumping((core), false));
 }
+
+void PlayerStanding::OnUnsupported()
+{
+	Transition(new PlayerJumping(core, false, false));
+}

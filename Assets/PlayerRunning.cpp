@@ -31,3 +31,8 @@ void PlayerRunning::OnCtrlJumpPress()
 {
 	Transition(new PlayerJumping(core, true));
 }
+
+void PlayerRunning::OnUnsupported()
+{
+	Transition(new PlayerJumping(core, true, false));
+}

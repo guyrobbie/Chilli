@@ -45,6 +45,7 @@ void Game::Go()
 	c.Poll();
 	p.GetState().OnUpdate();
 	t.DoCollision(p);
+	t.DoSupport(p);
 	gfx.BeginFrame();
 	ComposeFrame();
 	gfx.EndFrame();

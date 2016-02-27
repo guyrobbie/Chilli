@@ -8,7 +8,7 @@ void PlayerMovingHorizontally::OnCollision(const RectF& rect)
 		core.vx = 0.0f;
 	}
 
-	else if (core.vx < 0)
+	else
 	{
 		core.x += rect.right - core.GetCRect().left;
 		core.vx = 0.0f;

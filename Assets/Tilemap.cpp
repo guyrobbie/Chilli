@@ -67,21 +67,80 @@ void Tilemap::GetCRectList(RectF cRect, RectFList& list)
 	
 }
 
-bool Tilemap::GetCRectSingle(RectF cRect, RectF& rect)
+bool Tilemap::GetCRectSingle(RectF cRect, RectF& rect, float vx, float vy)
 {
-	int ixEnd, iyEnd;
-
-	for (int iy = Tile::GetIndexYBiasButtom(cRect.top), iyEnd = Tile::GetIndexYBiasTop(cRect.buttom);
-		iy <= iyEnd; iy++)
+	if (vx > 0.0f)
 	{
-		for (int ix = Tile::GetIndexXBiasRight(cRect.left), ixEnd = Tile::GetIndexXBiasLeft(cRect.right);
-			ix <= ixEnd; ix++)
+		if (vy > 0.0f)
 		{
-			if (!GetTile(ix, iy)->isPassable())
+			for (int iy = Tile::GetIndexYBiasButtom(cRect.top), iyEnd = Tile::GetIndexYBiasTop(cRect.buttom);
+				iy <= iyEnd; iy++)
 			{
-				rect = Tile::GetCRect(ix, iy);
-				return true;
+				for (int ix = Tile::GetIndexXBiasRight(cRect.left), ixEnd = Tile::GetIndexXBiasLeft(cRect.right);
+					ix <= ixEnd; ix++)
+				{
+					if (!GetTile(ix, iy)->isPassable())
+					{
+						rect = Tile::GetCRect(ix, iy);
+						return true;
+					}
+				}
 			}
+
+		}
+		else
+		{
+			for (int iy = Tile::GetIndexYBiasTop(cRect.buttom), iyEnd = Tile::GetIndexYBiasButtom(cRect.top);
+				iy >= iyEnd; iy--)
+			{
+				for (int ix = Tile::GetIndexXBiasRight(cRect.left), ixEnd = Tile::GetIndexXBiasLeft(cRect.right);
+					ix <= ixEnd; ix++)
+				{
+					if (!GetTile(ix, iy)->isPassable())
+					{
+						rect = Tile::GetCRect(ix, iy);
+						return true;
+					}
+				}
+			}
+
+		}
+	}
+	else
+	{
+		if (vy > 0.0f)
+		{
+			for (int iy = Tile::GetIndexYBiasButtom(cRect.top), iyEnd = Tile::GetIndexYBiasTop(cRect.buttom);
+				iy <= iyEnd; iy++)
+			{
+				for (int ix = Tile::GetIndexXBiasLeft(cRect.right), ixEnd = Tile::GetIndexXBiasRight(cRect.left);
+					ix >= ixEnd; ix--)
+				{
+					if (!GetTile(ix, iy)->isPassable())
+					{
+						rect = Tile::GetCRect(ix, iy);
+						return true;
+					}
+				}
+			}
+
+		}
+		else
+		{
+			for (int iy = Tile::GetIndexYBiasTop(cRect.buttom), iyEnd = Tile::GetIndexYBiasButtom(cRect.top);
+				iy >= iyEnd; iy--)
+			{
+				for (int ix = Tile::GetIndexXBiasLeft(cRect.right), ixEnd = Tile::GetIndexXBiasRight(cRect.left);
+					ix >= ixEnd; ix--)
+				{
+					if (!GetTile(ix, iy)->isPassable())
+					{
+						rect = Tile::GetCRect(ix, iy);
+						return true;
+					}
+				}
+			}
+
 		}
 	}
 	return false;
@@ -90,17 +149,25 @@ bool Tilemap::GetCRectSingle(RectF cRect, RectF& rect)
 void Tilemap::DoCollision(Sprite& s)
 {
 	RectF rect;
-	while (GetCRectSingle(s.GetCRect(), rect))
+	while (GetCRectSingle(s.GetCRect(), rect, s.GetVX(), s.GetVY()))
 	{
 		s.GetState().OnCollision(rect);
 	}
-	RectFList list;
-	
-	for (RectFList::iterator i = list.begin(), end = list.end();
-		i != end; i++)
-	{
-		GetCRectList(s.GetCRect(), list);
-	}
-	
+}
 
+void Tilemap::DoSupport(Sprite& s)
+{
+	RectF cRect = s.GetCRect();
+	int iy = Tile::GetIndexYBiasButtom(cRect.buttom);
+
+	for (int ix = Tile::GetIndexXBiasRight(cRect.left), ixEnd = Tile::GetIndexXBiasLeft(cRect.right);
+		ix <= ixEnd; ix++)
+	{
+		if (!GetTile(ix, iy)->isPassable() &&
+			Tile::GetCRect(ix, iy).top == cRect.buttom )
+		{
+			return;
+		}
+	}
+	s.GetState().OnUnsupported();
 }

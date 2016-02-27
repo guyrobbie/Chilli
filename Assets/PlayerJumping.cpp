@@ -3,8 +3,6 @@
 
 void PlayerJumping::OnUpdate()
 {
-	core.x += core.vx;
-	core.y += core.vy;
 	core.vy += ay;
 
 	if (isMoving)
@@ -22,6 +20,9 @@ void PlayerJumping::OnUpdate()
 	{
 		core.vy *= sdy;
 	}
+
+	core.x += core.vx;
+	core.y += core.vy;
 
 	if (core.vy >= 0.0f)
 	{
@@ -48,4 +49,104 @@ void PlayerJumping::OnCtrlDirPress(BiDirection d)
 void PlayerJumping::OnCtrlJumpRelease()
 {
 	isBoosting = false;
+}
+
+void PlayerJumping::OnCollision(const RectF& rect)
+{
+	RectF sRect = core.GetCRect();
+	if (core.vx > 0)
+	{
+		if (core.vy > 0)
+		{
+			float px = sRect.right - rect.left;
+			float py = sRect.buttom - rect.top;
+
+			if (core.vy*px > core.vx*py)
+			{
+				// top collision
+				core.vy = 0.0f;
+				core.y -= py;
+				if (isMoving)
+				{
+					Transition(new PlayerRunning(core));
+				}
+				else
+				{
+					Transition(new PlayerStanding(core));
+				}
+			}
+			else // core.vy*px < core.vx*py
+			{
+				// side collision
+				core.vx = 0.0f;
+				core.x -= px;
+			}
+		}
+		else // core.vy < 0
+		{
+			float px = sRect.right - rect.left;
+			float py = rect.buttom - sRect.top;
+
+			if ( (-core.vy)*px > core.vx*py)
+			{
+				// top collision
+				core.vy = 0.0f;
+				core.y += py;
+			}
+			else // core.vy*px < core.vx*py
+			{
+				// side collision
+				core.vx = 0.0f;
+				core.x -= px;
+			}
+		}
+	}
+	else // core.vx < 0
+	{
+		if (core.vy > 0)
+		{
+			float px = rect.right - sRect.left;
+			float py = sRect.buttom - rect.top;
+
+			if (core.vy*px > (-core.vx)*py)
+			{
+				// top collision
+				core.vy = 0.0f;
+				core.y -= py;
+				if (isMoving)
+				{
+					Transition(new PlayerRunning(core));
+				}
+				else
+				{
+					Transition(new PlayerStanding(core));
+				}
+			}
+			else // core.vy*px < core.vx*py
+			{
+				// side collision
+				core.vx = 0.0f;
+				core.x += px;
+			}
+		}
+		else // core.vy < 0
+		{
+			float px = rect.right - sRect.left;
+			float py = rect.buttom - sRect.top;
+
+			if ((-core.vy)*px > (-core.vx)*py)
+			{
+				// top collision
+				core.vy = 0.0f;
+				core.y += py;
+			}
+			else // core.vy*px < core.vx*py
+			{
+				// side collision
+				core.vx = 0.0f;
+				core.x += px;
+			}
+		}
+	}
+
 }

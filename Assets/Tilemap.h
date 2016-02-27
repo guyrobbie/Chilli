@@ -10,8 +10,9 @@ public:
 	~Tilemap();
 	const void Draw(D3DGraphics &gfx);
 	void GetCRectList(RectF cRect, RectFList& list);
-	bool GetCRectSingle(RectF cRect, RectF& rect);
+	bool GetCRectSingle(RectF cRect, RectF& rect, float vx, float vy);
 	void DoCollision(Sprite& s);
+	void DoSupport(Sprite& s);
 private:
 	Tile* GetTile(int ix, int iy) const
 	{

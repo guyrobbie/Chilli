@@ -1,11 +1,12 @@
 #pragma once
 
 #include "SpriteState.h"
+#include "RectF.h"
 
 class PlayerJumping : public SpriteState
 {
 public:
-	PlayerJumping(SpriteCore& core, bool isMoving)
+	PlayerJumping(SpriteCore& core, bool isMoving, bool hasJumped = true)
 		:
 		SpriteState(core),
 		isMoving(isMoving),
@@ -16,13 +17,17 @@ public:
 		isBoosting( true ),
 		sdy( 0.4f )
 	{
-		core.vy = -12.0f;
+		if (hasJumped)
+		{
+			core.vy = -12.0f;
+		}
 		core.currentSeq = core.seqs[2];
 	}
 	virtual void OnUpdate();
 	virtual void OnCtrlDirPress(BiDirection d);
 	virtual void OnCtrlDirRelease(BiDirection d);
 	virtual void OnCtrlJumpRelease();
+	virtual void OnCollision(const RectF& rect);
 protected:
 	float sax;
 	float sdx; // speed decay coefficient

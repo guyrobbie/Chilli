@@ -18,6 +18,7 @@ public:
 	virtual void OnCtrlJumpRelease() {}
 	virtual void OnUpdate() {}
 	virtual void OnCollision(const RectF& rect) {}
+	virtual void OnUnsupported() {}
 
 	
 
